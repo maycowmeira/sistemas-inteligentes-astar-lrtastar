@@ -26,7 +26,6 @@ public class HexBoard {
         ArrayDeque<Character> plano = new ArrayDeque();
         ArrayList<Hex> closed = new ArrayList();
         Hex current = board.get(sx).get(sy);
-        Hex last;
         ArrayList<Hex> open = new ArrayList();
         open.add(current);
         
