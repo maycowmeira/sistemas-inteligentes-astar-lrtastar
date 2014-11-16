@@ -18,14 +18,16 @@ public class Hex {
     private int status;
     private int g; //custo para chegar
     private int h; //custo estimado até o objetivo
+    private Hex parent;
 
-    public Hex(int x, int y, int g, int h, int s) {
+    public Hex(int x, int y, int h, int s) {
         this.vizinhos = new ArrayList();
         this.x = x;
         this.y = y;
-        this.g = g;
+        this.g = 0;
         this.h = h;
         this.status = s;
+        parent = null;
     }
 
     public int getG() {
@@ -64,5 +66,16 @@ public class Hex {
         this.status = status;
     }
     
+    public int getF() {
+        return g + h;
+    }
+
+    public Hex getParent() {
+        return parent;
+    }
+
+    public void setParent(Hex parent) {
+        this.parent = parent;
+    }
     
 }
