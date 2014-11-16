@@ -5,6 +5,7 @@
 package roborescue.examples;
 
 import atuador.AtuadorAssincrono;
+import br.edu.utfpr.hexgrid.HexBoard;
 import jason.RoborescueEnv;
 import jason.asSyntax.Structure;
 import java.rmi.RemoteException;
@@ -122,6 +123,7 @@ public class TimeTarBuscaATeamEnv extends RoborescueEnv {
                 // manda o salvador em direcao ao refem sem se preocupar com obstaculos
                 atuador.irPara(teamRef[1], (int) xRefem, (int) yRefem);
                 //Planeja o caminho usando o A*
+                
                 //Executa o caminho achado pelo A*
                 while(!filaDeAcoes.isEmpty()){
                     atuador.mover(teamRef[1], filaDeAcoes.poll(), 60);

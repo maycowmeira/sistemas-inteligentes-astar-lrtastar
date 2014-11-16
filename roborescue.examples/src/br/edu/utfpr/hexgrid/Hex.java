@@ -18,6 +18,7 @@ public class Hex {
     private int status;
     private int g; //custo para chegar
     private int h; //custo estimado até o objetivo
+    private int inflacao;
     private Hex parent;
 
     public Hex(int x, int y, int h, int s) {
@@ -27,6 +28,7 @@ public class Hex {
         this.g = 0;
         this.h = h;
         this.status = s;
+        this.inflacao = 0;
         parent = null;
     }
 
@@ -76,6 +78,14 @@ public class Hex {
 
     public void setParent(Hex parent) {
         this.parent = parent;
+    }
+
+    public int getInflacao() {
+        return inflacao;
+    }
+
+    public void setInflacao(int inflacao) {
+        this.inflacao = inflacao;
     }
     
 }

@@ -6,6 +6,7 @@
 
 package br.edu.utfpr.hexgrid;
 
+import java.io.Serializable;
 import java.util.ArrayDeque;
 import java.util.ArrayList;
 
@@ -13,10 +14,10 @@ import java.util.ArrayList;
  *
  * @author Bernardo
  */
-public class HexBoard {
+public class HexBoard implements Serializable {
     ArrayList<ArrayList<Hex>> board;
     
-    public HexBoard(){
+    public HexBoard(ArrayList<Pos> aliados, ArrayList<Pos> inimigos){
     //instanciar os vertices
     //inicializar as arestas
     
@@ -27,8 +28,7 @@ public class HexBoard {
         ArrayList<Hex> closed = new ArrayList();
         Hex current = board.get(sx).get(sy);
         ArrayList<Hex> open = new ArrayList();
-        open.add(current);
-        
+        open.add(current);        
         
         while(!open.isEmpty()){
             Hex menorf = open.get(0);
@@ -51,11 +51,9 @@ public class HexBoard {
                         v.setParent(current);
                         v.setG(current.getG() + 1);
                     }
-                    else{
-                        if(current.getG() + 1 < v.getF() ){
+                    else if(current.getG() + 1 < v.getF() ){
                             v.setG(current.getG() + 1);
                             v.setParent(current);
-                        }
                     }
                 }
             }
@@ -63,4 +61,22 @@ public class HexBoard {
         //se falhou retorna um conjunto vazio de instrucoes
         return new ArrayDeque();
     }
+    
+    Character LRTAstar(int sx, int sy){
+        Hex current = board.get(sx).get(sy);
+        Hex last = current;
+        for(Hex v: current.getVizinhos()){
+            v.setInflacao(v.getInflacao() + 1);
+        }
+        Hex menorf = current.getVizinhos().get(0);
+        for(Hex w: current.getVizinhos()){
+            if(w.getF() + w.getInflacao() < menorf.getF() + menorf.getInflacao()){
+                menorf = w;
+            }
+        }
+        
+        //TODO comparar current com last e definir qual comando enviar para o robo
+        return '\n';
+    }
+    
 }
