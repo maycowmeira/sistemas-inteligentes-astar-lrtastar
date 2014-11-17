@@ -19,6 +19,13 @@ public class HexBoard implements Serializable {
     
     public HexBoard(ArrayList<Pos> aliados, ArrayList<Pos> inimigos){
     //instanciar os vertices
+    board = new ArrayList();
+    for(int i = 0; i < 41; i++){
+        board.add(new ArrayList());
+        for(int j = 0; i < 25; i++){
+            board.get(i).add(new Hex(i, j, 0, 0));
+        }
+    }
     //inicializar as arestas
     
     }
@@ -62,7 +69,7 @@ public class HexBoard implements Serializable {
         return new ArrayDeque();
     }
     
-    Character LRTAstar(int sx, int sy){
+    Character LRTAstar(int sx, int sy, int gx, int gy){
         Hex current = board.get(sx).get(sy);
         Hex last = current;
         for(Hex v: current.getVizinhos()){
@@ -74,6 +81,8 @@ public class HexBoard implements Serializable {
                 menorf = w;
             }
         }
+        if(menorf.getX() == gx && menorf.getY() == gy)
+            return 'g';
         
         //TODO comparar current com last e definir qual comando enviar para o robo
         return '\n';
