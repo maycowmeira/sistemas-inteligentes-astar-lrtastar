@@ -15,19 +15,17 @@ import java.util.ArrayList;
 public class Hex {
     private ArrayList<Hex> vizinhos;
     private int x, y;
-    private int status;
     private int g; //custo para chegar
     private int h; //custo estimado até o objetivo
     private int inflacao;
     private Hex parent;
 
-    public Hex(int x, int y, int h, int s) {
+    public Hex(int x, int y) {
         this.vizinhos = new ArrayList();
         this.x = x;
         this.y = y;
         this.g = 0;
-        this.h = h;
-        this.status = s;
+        this.h = 0;
         this.inflacao = 0;
         parent = null;
     }
@@ -58,14 +56,6 @@ public class Hex {
 
     public int getY() {
         return y;
-    }
-
-    public int getStatus() {
-        return status;
-    }
-
-    public void setStatus(int status) {
-        this.status = status;
     }
     
     public int getF() {
