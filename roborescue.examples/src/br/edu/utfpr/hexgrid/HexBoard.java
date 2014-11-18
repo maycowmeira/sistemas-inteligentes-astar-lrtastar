@@ -18,69 +18,93 @@ import java.util.ArrayList;
 public class HexBoard implements Serializable {
     ArrayList<ArrayList<Hex>> board;
     
-    public HexBoard(ArrayList<Pos> aliados, ArrayList<Pos> inimigos){
-    //instanciar os vertices
-    board = new ArrayList();
-    for(int i = 0; i < 41; i++){
-        board.add(new ArrayList());
-        for(int j = 0; i < 25; i++){
-            board.get(i).add(new Hex(i, j, 0, 0));
-        }
-    }
-    board.get(0).get(0).setH(Integer.MAX_VALUE);
-    
-    ArrayList<Pos> barreira = new ArrayList();
-    
-    for(Pos p : aliados){
-        barreira.add(new Pos(p.x,p.y));
-        barreira.add(new Pos(p.x-1,p.y-1));
-        barreira.add(new Pos(p.x,p.y-1));
-        barreira.add(new Pos(p.x+1,p.y));
-        barreira.add(new Pos(p.x,p.y+1));
-        barreira.add(new Pos(p.x-1,p.y+1));
-        barreira.add(new Pos(p.x-1,p.y));
-    }
-    for(Pos p : inimigos){
-        barreira.add(new Pos(p.x,p.y));
-        barreira.add(new Pos(p.x-1,p.y-1));
-        barreira.add(new Pos(p.x,p.y-1));
-        barreira.add(new Pos(p.x+1,p.y));
-        barreira.add(new Pos(p.x,p.y+1));
-        barreira.add(new Pos(p.x-1,p.y+1));
-        barreira.add(new Pos(p.x-1,p.y));
-    }
-    //inicializar as arestas
-    for(int i = 0; i < 41; i++){
-        for(int j = 0; i < 25; i++){
-            if(i != 0){
-                if(barreira.contains(new Pos(board.get(i-1).get(j).getX()*60,board.get(i-1).get(j).getY()*60))){
-                    board.get(i).get(j).getVizinhos().add(board.get(i-1).get(j));
-                }
-            }
-            if(i !=0 && j != 0){
-                if(barreira.contains(new Pos(board.get(i-1).get(j-1).getX()*60,board.get(i-1).get(j-1).getY()*60))){
-                    board.get(i).get(j).getVizinhos().add(board.get(i-1).get(j-1));
-                }
-                if(barreira.contains(new Pos(board.get(i).get(j-1).getX()*60,board.get(i).get(j-1).getY()*60))){
-                    board.get(i).get(j).getVizinhos().add(board.get(i).get(j-1));
-                }
-            }
-            if(i != 40){
-                if(barreira.contains(new Pos(board.get(i+1).get(j).getX()*60,board.get(i+1).get(j).getY()*60))){
-                    board.get(i).get(j).getVizinhos().add(board.get(i+1).get(j));
-                }
-            }
-            if(i != 40 && j != 24){
-                if(barreira.contains(new Pos(board.get(i+1).get(j+1).getX()*60,board.get(i+1).get(j+1).getY()*60))){
-                    board.get(i).get(j).getVizinhos().add(board.get(i+1).get(j+1));
-                }
-                if(barreira.contains(new Pos(board.get(i).get(j+1).getX()*60,board.get(i).get(j+1).getY()*60))){
-                    board.get(i).get(j).getVizinhos().add(board.get(i).get(j+1));
-                }
+    public HexBoard(ArrayList<Pos> aliados, ArrayList<Pos> inimigos, Pos objetivo){
+        //instanciar os vertices
+        board = new ArrayList();
+        for(int i = 0; i < 41; i++){
+            board.add(new ArrayList());
+            for(int j = 0; i < 25; i++){
+                board.get(i).add(new Hex(i, j));
             }
         }
-    }
-    
+        board.get(0).get(0).setH(Integer.MAX_VALUE);
+
+        ArrayList<Pos> barreira = new ArrayList();
+
+        for(Pos p : aliados){
+            barreira.add(new Pos(p.x,p.y));
+            barreira.add(new Pos(p.x-1,p.y-1));
+            barreira.add(new Pos(p.x,p.y-1));
+            barreira.add(new Pos(p.x+1,p.y));
+            barreira.add(new Pos(p.x,p.y+1));
+            barreira.add(new Pos(p.x-1,p.y+1));
+            barreira.add(new Pos(p.x-1,p.y));
+        }
+        for(Pos p : inimigos){
+            barreira.add(new Pos(p.x,p.y));
+            barreira.add(new Pos(p.x-1,p.y-1));
+            barreira.add(new Pos(p.x,p.y-1));
+            barreira.add(new Pos(p.x+1,p.y));
+            barreira.add(new Pos(p.x,p.y+1));
+            barreira.add(new Pos(p.x-1,p.y+1));
+            barreira.add(new Pos(p.x-1,p.y));
+        }
+        //inicializar as arestas
+        for(int i = 0; i < 41; i++){
+            for(int j = 0; i < 25; i++){
+                if(i != 0){
+                    if(barreira.contains(new Pos(board.get(i-1).get(j).getX()*60,board.get(i-1).get(j).getY()*60))){
+                        board.get(i).get(j).getVizinhos().add(board.get(i-1).get(j));
+                    }
+                }
+                if(i !=0 && j != 0){
+                    if(barreira.contains(new Pos(board.get(i-1).get(j-1).getX()*60,board.get(i-1).get(j-1).getY()*60))){
+                        board.get(i).get(j).getVizinhos().add(board.get(i-1).get(j-1));
+                    }
+                    if(barreira.contains(new Pos(board.get(i).get(j-1).getX()*60,board.get(i).get(j-1).getY()*60))){
+                        board.get(i).get(j).getVizinhos().add(board.get(i).get(j-1));
+                    }
+                }
+                if(i != 40){
+                    if(barreira.contains(new Pos(board.get(i+1).get(j).getX()*60,board.get(i+1).get(j).getY()*60))){
+                        board.get(i).get(j).getVizinhos().add(board.get(i+1).get(j));
+                    }
+                }
+                if(i != 40 && j != 24){
+                    if(barreira.contains(new Pos(board.get(i+1).get(j+1).getX()*60,board.get(i+1).get(j+1).getY()*60))){
+                        board.get(i).get(j).getVizinhos().add(board.get(i+1).get(j+1));
+                    }
+                    if(barreira.contains(new Pos(board.get(i).get(j+1).getX()*60,board.get(i).get(j+1).getY()*60))){
+                        board.get(i).get(j).getVizinhos().add(board.get(i).get(j+1));
+                    }
+                }
+            }
+        }
+        Hex goal = new Hex(objetivo.getX(),objetivo.getY());
+        int xGoalCubo, yGoalCubo, zGoalCubo;
+        xGoalCubo = goal.getX() - (goal.getY() - (goal.getY()&1))/2;
+        zGoalCubo = goal.getY();
+        yGoalCubo = -xGoalCubo-zGoalCubo;
+        
+        int xCubo, yCubo, zCubo;
+        
+        for(int i = 0; i < 41; i++){
+            for(int j = 0; i < 25; i++){
+                xCubo = board.get(i).get(j).getX() - (board.get(i).get(j).getY() - (board.get(i).get(j).getY()&1))/2;
+                zCubo = board.get(i).get(j).getY();
+                yCubo = -xCubo-zCubo;
+                
+                board.get(i).get(j).setH(
+                        Math.max(
+                            Math.max(
+                                Math.abs(xCubo - xGoalCubo), 
+                                Math.abs(yCubo - yGoalCubo)
+                            ),
+                            Math.abs(zCubo - zGoalCubo)
+                        )
+                    );
+            }
+        }
     }
     
     ArrayDeque<Pos> Astar(int sx, int sy, int gx, int gy){
