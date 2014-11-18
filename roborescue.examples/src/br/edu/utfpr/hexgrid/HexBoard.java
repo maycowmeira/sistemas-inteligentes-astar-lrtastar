@@ -12,7 +12,7 @@ import java.util.ArrayList;
 
 /**
  *
- * @author Bernardo
+ * @author Bernardo e Maycow
  * Inspirado por: http://www.redblobgames.com/grids/hexagons/
  */
 public class HexBoard implements Serializable {
@@ -29,7 +29,16 @@ public class HexBoard implements Serializable {
                     board.get(i).add(new Hex(i, j));
         
         board.get(3).get(10).setH(Integer.MAX_VALUE);
-
+        
+//        Hex goal = new Hex(objetivo.getX(),objetivo.getY());
+//        
+//        for(int i = 0; i < 41; i++){
+//            for(int j = 0; j < 25; j++){
+//                //board.get(i).get(j).setH(Math.abs(goal.getX()-i) + Math.abs(goal.getY() - j));
+//                board.get(i).get(j).setH((goal.getX()-i) + (goal.getY() - j));
+//            }
+//        }
+        
         ArrayList<Pos> barreira = new ArrayList();
 
         for(Pos p : aliados){
@@ -51,37 +60,92 @@ public class HexBoard implements Serializable {
             barreira.add(new Pos((p.x-1) * 60,p.y));
         }
         //inicializar as arestas
+        
+        Boolean add = true;
+        Pos atual = null;
+        
         for(int i = 0; i < 41; i++){
             for(int j = 0; j < 25; j++){
                 //TODO: Arrumar essa parte que ta completamente errada
                 if(i != 0){
                     //if(!barreira.contains(new Pos(board.get(i-1).get(j).getX()*60,board.get(i-1).get(j).getY()*60))){
+                    add = true;
+                    atual = new Pos(board.get(i-1).get(j).getX()*60,board.get(i-1).get(j).getY()*60);
+                    for(Pos p : barreira)
+                        if(p.getX() == atual.getX() && p.getY() == atual.getY() ){
+                            add = false;
+                            break;
+                        }
+                    
+                    if(add)
                         board.get(i).get(j).getVizinhos().add(board.get(i-1).get(j));
                     //}
                 }
                 if(i !=0 && j != 0){
                     //if(!barreira.contains(new Pos(board.get(i-1).get(j-1).getX()*60,board.get(i-1).get(j-1).getY()*60))){
+                    add = true;
+                    atual = new Pos(board.get(i-1).get(j-1).getX()*60,board.get(i-1).get(j-1).getY()*60);
+                    for(Pos p : barreira)
+                        if(p.getX() == atual.getX() && p.getY() == atual.getY() ){
+                            add = false;
+                            break;
+                        }                    
+                    if(add)
                         board.get(i).get(j).getVizinhos().add(board.get(i-1).get(j-1));
                     //}
                     //if(!barreira.contains(new Pos(board.get(i).get(j-1).getX()*60,board.get(i).get(j-1).getY()*60))){
-                        board.get(i).get(j).getVizinhos().add(board.get(i).get(j-1));
+                        add = true;
+                        atual = new Pos(board.get(i).get(j-1).getX()*60,board.get(i).get(j-1).getY()*60);
+                        for(Pos p : barreira)
+                            if(p.getX() == atual.getX() && p.getY() == atual.getY() ){
+                                add = false;
+                                break;
+                            }
+                        if(add)
+                            board.get(i).get(j).getVizinhos().add(board.get(i).get(j-1));
                     //}
                 }
                 if(i != 40){
                     //if(!barreira.contains(new Pos(board.get(i+1).get(j).getX()*60,board.get(i+1).get(j).getY()*60))){
+                    add = true;
+                    atual = new Pos(board.get(i+1).get(j).getX()*60,board.get(i+1).get(j).getY()*60);
+                    for(Pos p : barreira)
+                        if(p.getX() == atual.getX() && p.getY() == atual.getY() ){
+                            add = false;
+                            break;
+                        }                    
+                    if(add)
                         board.get(i).get(j).getVizinhos().add(board.get(i+1).get(j));
                     //}
                 }
                 if(i != 40 && j != 24){
                     //if(!barreira.contains(new Pos(board.get(i+1).get(j+1).getX()*60,board.get(i+1).get(j+1).getY()*60))){
+                    add = true;
+                    atual = new Pos(board.get(i+1).get(j+1).getX()*60,board.get(i+1).get(j+1).getY()*60);
+                    for(Pos p : barreira)
+                        if(p.getX() == atual.getX() && p.getY() == atual.getY() ){
+                            add = false;
+                            break;
+                        }                    
+                    if(add)
                         board.get(i).get(j).getVizinhos().add(board.get(i+1).get(j+1));
                     //}
                     //if(!barreira.contains(new Pos(board.get(i).get(j+1).getX()*60,board.get(i).get(j+1).getY()*60))){
+                    add = true;
+                    atual = new Pos(board.get(i).get(j+1).getX()*60,board.get(i).get(j+1).getY()*60);
+                    for(Pos p : barreira)
+                        if(p.getX() == atual.getX() && p.getY() == atual.getY() ){
+                            add = false;
+                            break;
+                        }                    
+                    if(add)
                         board.get(i).get(j).getVizinhos().add(board.get(i).get(j+1));
                     //}
                 }
             }
         }
+        
+        //Heuristica que nao deu certo...
         Hex goal = new Hex(objetivo.getX(),objetivo.getY());
         int xGoalCubo, yGoalCubo, zGoalCubo;
         xGoalCubo = goal.getX() - (goal.getY() - (goal.getY()&1))/2;
@@ -91,9 +155,12 @@ public class HexBoard implements Serializable {
         int xCubo, yCubo, zCubo;
         
         for(int i = 0; i < 41; i++){
-            for(int j = 0; i < 25; i++){
+            for(int j = 0; j < 25; j++){
+                //x = q - (r - (r&1)) / 2
                 xCubo = board.get(i).get(j).getX() - (board.get(i).get(j).getY() - (board.get(i).get(j).getY()&1))/2;
+                //z = r
                 zCubo = board.get(i).get(j).getY();
+                //y = -x-z
                 yCubo = -xCubo-zCubo;
                 
                 board.get(i).get(j).setH(
@@ -106,7 +173,7 @@ public class HexBoard implements Serializable {
                         )
                     );
             }
-        }
+        } 
     }
     
     public ArrayDeque<Pos> Astar(int sx, int sy, int gx, int gy){
@@ -153,12 +220,18 @@ public class HexBoard implements Serializable {
         Hex current = board.get(sx).get(sy);
         Hex last = current;
         for(Hex v: current.getVizinhos()){
-            v.setInflacao(v.getInflacao() + 1);
+            v.setInflacao(v.getInflacao() + 50);
         }
         Hex menorf = current.getVizinhos().get(0);
         for(Hex w: current.getVizinhos()){
-            if(w.getF() + w.getInflacao() < menorf.getF() + menorf.getInflacao()){
+            if(w.getH() + w.getInflacao() < menorf.getH() + menorf.getInflacao()){
                 menorf = w;
+            }
+            else if(w.getH() + w.getInflacao() == menorf.getH() + menorf.getInflacao()){
+                double r =  Math.random();
+                if(r > 0.5){
+                    menorf = w;
+                }
             }
         }
         if(menorf.getX() == gx && menorf.getY() == gy)

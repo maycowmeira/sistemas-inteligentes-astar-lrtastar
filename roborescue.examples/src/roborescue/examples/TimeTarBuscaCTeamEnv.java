@@ -14,9 +14,9 @@ import java.util.ArrayList;
 import robocode.rescue.RobotInfo;
 import robocode.rescue.interfaces.RMIRobotInterface;
 
-public class TimeTarBuscaATeamEnv extends RoborescueEnv {
+public class TimeTarBuscaCTeamEnv extends RoborescueEnv {
 
-    private static final String nomeTime = "TimeTarBuscaA";
+    private static final String nomeTime = "TimeTarBuscaC";
     private final int numRobos = 5;
     private RMIRobotInterface[] aliados;
     private RobotInfo[] inimigos;
@@ -33,7 +33,7 @@ public class TimeTarBuscaATeamEnv extends RoborescueEnv {
             meuLadoCampo = aliados[0].getRobotInfo().getX() > 200 ? 'e' : 'd';
             atuador = new AtuadorSincrono();
 
-            /* O aliados[0] do time A eh o refem e inicia posicionado na 
+            /* O aliados[0] do time C eh o refem e inicia posicionado na 
              ** extremidade oposta do campo em relacao aos seus companheiros.
              ** Este robô deve ser resgatado.
              */
@@ -41,14 +41,14 @@ public class TimeTarBuscaATeamEnv extends RoborescueEnv {
                     + aliados[0].getRobotInfo().getX()
                     + " Y=" + aliados[0].getRobotInfo().getY());
 
-            /* o robo[1] do time A eh o salvador do refem
+            /* o robo[1] do time C eh o salvador do refem
              ** vc pode escolher entre mexer ou nao nao posicao inicial dele
              */
             System.out.println(nomeTime + ": pos robo SALVADOR X="
                     + aliados[1].getRobotInfo().getX()
                     + " Y=" + aliados[1].getRobotInfo().getY());
 
-            /*DONE- posicionar os robos aleatoriamente para o A*
+            /*DONE- posicionar os robos aleatoriamente para o LRTA*
              */
             if (meuLadoCampo == 'e') {
                 aliados[2].setTurnRight((int)(Math.random() * (90) ) - 45);
@@ -128,16 +128,35 @@ public class TimeTarBuscaATeamEnv extends RoborescueEnv {
                     PosInimigos.add(new Pos((int)aliados[cont2].getRobotInfo().getX(), (int)aliados[cont2].getRobotInfo().getY()));
                 }               
                 HexBoard board = new HexBoard(PosAliados, PosInimigos, new Pos((int)aliados[0].getRobotInfo().getX(), (int)aliados[0].getRobotInfo().getY()));
-                //TODO Planeja o caminho usando o A*
-                filaDeAcoes = board.Astar((int)aliados[1].getRobotInfo().getX()/60, (int)aliados[1].getRobotInfo().getY()/60, (int)aliados[0].getRobotInfo().getX()/60, (int)aliados[0].getRobotInfo().getY()/60);
-                //Executa o caminho achado pelo A*
-                while(!filaDeAcoes.isEmpty()){
-                    Pos pop = filaDeAcoes.pop();
+                
+
+                //TODO Planeja o caminho usando o LRTA*
+                
+                //Executa o caminho achado pelo LRTA*
+                while(isNotPertoRefem()){
+                    Pos pop = board.LRTAstar((int)aliados[1].getRobotInfo().getX()/60, (int)aliados[1].getRobotInfo().getY()/60, (int)aliados[0].getRobotInfo().getX()/60, (int)aliados[0].getRobotInfo().getY()/60);
                     atuador.irPara(aliados[1], pop.getX(), pop.getY());
                 }
             }
         }
 
+    }
+    
+    public boolean isNotPertoRefem() throws RemoteException{
+        
+        double xHeroi = aliados[1].getRobotInfo().getX();
+        double yHeroi = aliados[1].getRobotInfo().getY();
+        
+        double xRefem = aliados[0].getRobotInfo().getX();
+        double yRefem = aliados[0].getRobotInfo().getY();
+        
+        double distanciaX = Math.abs(xHeroi-xRefem);
+        double distanciaY = Math.abs(yHeroi-yRefem);
+        
+        if(distanciaX > 10.0 && distanciaY > 10.0)
+            return true;
+        else
+            return false;
     }
 
     @Override
@@ -151,7 +170,7 @@ public class TimeTarBuscaATeamEnv extends RoborescueEnv {
     }
 
     public static void main(String[] args) {
-        TimeTarBuscaATeamEnv team = new TimeTarBuscaATeamEnv();
+        TimeTarBuscaCTeamEnv team = new TimeTarBuscaCTeamEnv();
         team.init(new String[]{nomeTime, "localhost"});
 
         while (true) {
