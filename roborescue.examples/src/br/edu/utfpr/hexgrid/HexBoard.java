@@ -107,7 +107,7 @@ public class HexBoard implements Serializable {
         }
     }
     
-    ArrayDeque<Pos> Astar(int sx, int sy, int gx, int gy){
+    public ArrayDeque<Pos> Astar(int sx, int sy, int gx, int gy){
         ArrayDeque<Pos> plano = new ArrayDeque();
         ArrayList<Hex> closed = new ArrayList();
         Hex current = board.get(sx).get(sy);
@@ -150,7 +150,7 @@ public class HexBoard implements Serializable {
         return new ArrayDeque();
     }
     
-    Pos LRTAstar(int sx, int sy, int gx, int gy){
+    public Pos LRTAstar(int sx, int sy, int gx, int gy){
         Hex current = board.get(sx).get(sy);
         Hex last = current;
         for(Hex v: current.getVizinhos()){

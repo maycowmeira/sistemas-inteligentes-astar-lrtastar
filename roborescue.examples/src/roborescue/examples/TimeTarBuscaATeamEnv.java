@@ -10,6 +10,7 @@ import jason.RoborescueEnv;
 import jason.asSyntax.Structure;
 import java.rmi.RemoteException;
 import java.util.ArrayDeque;
+import java.util.ArrayList;
 import robocode.rescue.RobotInfo;
 import robocode.rescue.interfaces.RMIRobotInterface;
 
@@ -115,16 +116,24 @@ public class TimeTarBuscaATeamEnv extends RoborescueEnv {
         // aguarda o robo aliado 3 acabar seu movimento pois eh o que vai
         // mais longe
         if (teamRef[3].getDistanceRemaining() <= 0.1 && teamRef[2].getDistanceRemaining() <= 0.1 && teamRef[4].getDistanceRemaining() <= 0.1) {
-
-            // para entao mandar o salvador se movimentar (evita colisoes)
             if (primeiraVez) {
                 primeiraVez = false;
-                ArrayDeque<Character> filaDeAcoes = new ArrayDeque();
+                ArrayDeque<Pos> filaDeAcoes = new ArrayDeque();
+                ArrayList<Pos> PosAliados = new ArrayList();
+                for(int cont1 = 2; cont1 < 5; cont1++){
+                    PosAliados.add(new Pos((int)aliados[cont1].getRobotInfo().getX(), (int)aliados[cont1].getRobotInfo().getY()));
+                }
+                ArrayList<Pos> PosInimigos = new ArrayList();
+                for(int cont2 = 0; cont2 < 5; cont2++){
+                    PosAliados.add(new Pos((int)aliados[cont2].getRobotInfo().getX(), (int)aliados[cont2].getRobotInfo().getY()));
+                }               
+                HexBoard board = new HexBoard(PosAliados, PosInimigos, new Pos((int)aliados[0].getRobotInfo().getX(), (int)aliados[0].getRobotInfo().getY()));
                 //TODO Planeja o caminho usando o A*
-                
+                filaDeAcoes = board.Astar((int)aliados[1].getRobotInfo().getX(), (int)aliados[1].getRobotInfo().getY(), (int)aliados[0].getRobotInfo().getX(), (int)aliados[0].getRobotInfo().getY());
                 //Executa o caminho achado pelo A*
                 while(!filaDeAcoes.isEmpty()){
-                    
+                    Pos pop = filaDeAcoes.pop();
+                    atuador.irPara(aliados[1], pop.getX(), pop.getY());
                 }
             }
         }
