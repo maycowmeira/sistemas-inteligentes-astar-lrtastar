@@ -28,57 +28,57 @@ public class HexBoard implements Serializable {
             for(int j = 0; j < 25; j++)
                     board.get(i).add(new Hex(i, j));
         
-        board.get(0).get(0).setH(Integer.MAX_VALUE);
+        board.get(3).get(10).setH(Integer.MAX_VALUE);
 
         ArrayList<Pos> barreira = new ArrayList();
 
-        //TODO: TROCAR POS POR HEX NA BARREIRA
         for(Pos p : aliados){
-            barreira.add(new Pos(p.x,p.y));
-            barreira.add(new Pos(p.x-1,p.y-1));
-            barreira.add(new Pos(p.x,p.y-1));
-            barreira.add(new Pos(p.x+1,p.y));
-            barreira.add(new Pos(p.x,p.y+1));
-            barreira.add(new Pos(p.x-1,p.y+1));
-            barreira.add(new Pos(p.x-1,p.y));
+            barreira.add(new Pos(p.x * 60 ,p.y  * 60 ));
+            barreira.add(new Pos((p.x-1) * 60,(p.y-1) * 60));
+            barreira.add(new Pos(p.x * 60,(p.y-1) * 60));
+            barreira.add(new Pos((p.x+1) * 60,(p.y) * 60));
+            barreira.add(new Pos(p.x * 60,(p.y+1)* 60));
+            barreira.add(new Pos((p.x-1)*60,(p.y+1)*60));
+            barreira.add(new Pos((p.x-1) * 60,p.y));
         }
         for(Pos p : inimigos){
-            barreira.add(new Pos(p.x,p.y));
-            barreira.add(new Pos(p.x-1,p.y-1));
-            barreira.add(new Pos(p.x,p.y-1));
-            barreira.add(new Pos(p.x+1,p.y));
-            barreira.add(new Pos(p.x,p.y+1));
-            barreira.add(new Pos(p.x-1,p.y+1));
-            barreira.add(new Pos(p.x-1,p.y));
+            barreira.add(new Pos(p.x * 60 ,p.y  * 60 ));
+            barreira.add(new Pos((p.x-1) * 60,(p.y-1) * 60));
+            barreira.add(new Pos(p.x * 60,(p.y-1) * 60));
+            barreira.add(new Pos((p.x+1) * 60,(p.y) * 60));
+            barreira.add(new Pos(p.x * 60,(p.y+1)* 60));
+            barreira.add(new Pos((p.x-1)*60,(p.y+1)*60));
+            barreira.add(new Pos((p.x-1) * 60,p.y));
         }
         //inicializar as arestas
         for(int i = 0; i < 41; i++){
-            for(int j = 0; i < 25; i++){
+            for(int j = 0; j < 25; j++){
+                //TODO: Arrumar essa parte que ta completamente errada
                 if(i != 0){
-                    if(barreira.contains(new Pos(board.get(i-1).get(j).getX()*60,board.get(i-1).get(j).getY()*60))){
+                    //if(!barreira.contains(new Pos(board.get(i-1).get(j).getX()*60,board.get(i-1).get(j).getY()*60))){
                         board.get(i).get(j).getVizinhos().add(board.get(i-1).get(j));
-                    }
+                    //}
                 }
                 if(i !=0 && j != 0){
-                    if(barreira.contains(new Pos(board.get(i-1).get(j-1).getX()*60,board.get(i-1).get(j-1).getY()*60))){
+                    //if(!barreira.contains(new Pos(board.get(i-1).get(j-1).getX()*60,board.get(i-1).get(j-1).getY()*60))){
                         board.get(i).get(j).getVizinhos().add(board.get(i-1).get(j-1));
-                    }
-                    if(barreira.contains(new Pos(board.get(i).get(j-1).getX()*60,board.get(i).get(j-1).getY()*60))){
+                    //}
+                    //if(!barreira.contains(new Pos(board.get(i).get(j-1).getX()*60,board.get(i).get(j-1).getY()*60))){
                         board.get(i).get(j).getVizinhos().add(board.get(i).get(j-1));
-                    }
+                    //}
                 }
                 if(i != 40){
-                    if(barreira.contains(new Pos(board.get(i+1).get(j).getX()*60,board.get(i+1).get(j).getY()*60))){
+                    //if(!barreira.contains(new Pos(board.get(i+1).get(j).getX()*60,board.get(i+1).get(j).getY()*60))){
                         board.get(i).get(j).getVizinhos().add(board.get(i+1).get(j));
-                    }
+                    //}
                 }
                 if(i != 40 && j != 24){
-                    if(barreira.contains(new Pos(board.get(i+1).get(j+1).getX()*60,board.get(i+1).get(j+1).getY()*60))){
+                    //if(!barreira.contains(new Pos(board.get(i+1).get(j+1).getX()*60,board.get(i+1).get(j+1).getY()*60))){
                         board.get(i).get(j).getVizinhos().add(board.get(i+1).get(j+1));
-                    }
-                    if(barreira.contains(new Pos(board.get(i).get(j+1).getX()*60,board.get(i).get(j+1).getY()*60))){
+                    //}
+                    //if(!barreira.contains(new Pos(board.get(i).get(j+1).getX()*60,board.get(i).get(j+1).getY()*60))){
                         board.get(i).get(j).getVizinhos().add(board.get(i).get(j+1));
-                    }
+                    //}
                 }
             }
         }
@@ -116,8 +116,7 @@ public class HexBoard implements Serializable {
         ArrayList<Hex> open = new ArrayList();
         open.add(current);        
         
-        while(!open.isEmpty()){
-            System.out.println("Pinguins e focas");            
+        while(!open.isEmpty()){         
             Hex menorf = open.get(0);
             for(Hex h: open){
                 if(h.getF() < menorf.getF()){
@@ -128,7 +127,6 @@ public class HexBoard implements Serializable {
             open.remove(current);
             closed.add(current);
             if(current.getX() == gx && current.getY() == gy){
-                //TODO: adicionar as instruções finais a fila antes de retornar
                 while(current.getX() != sx && current.getY() != sy){
                     plano.push(new Pos(current.getX() * 3600, current.getY() * 3600));
                     current = current.getParent();
@@ -165,8 +163,6 @@ public class HexBoard implements Serializable {
         }
         if(menorf.getX() == gx && menorf.getY() == gy)
             return new Pos(-1, -1);
-        
-        //TODO comparar current com last e definir qual comando enviar para o robo
         return new Pos(menorf.getX() * 3600, menorf.getY() * 3600);
     }
     

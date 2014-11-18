@@ -118,14 +118,14 @@ public class TimeTarBuscaATeamEnv extends RoborescueEnv {
         if (teamRef[3].getDistanceRemaining() <= 0.1 && teamRef[2].getDistanceRemaining() <= 0.1 && teamRef[4].getDistanceRemaining() <= 0.1) {
             if (primeiraVez) {
                 primeiraVez = false;
-                ArrayDeque<Pos> filaDeAcoes = new ArrayDeque();
+                ArrayDeque<Pos> filaDeAcoes;
                 ArrayList<Pos> PosAliados = new ArrayList();
                 for(int cont1 = 2; cont1 < 5; cont1++){
                     PosAliados.add(new Pos((int)aliados[cont1].getRobotInfo().getX(), (int)aliados[cont1].getRobotInfo().getY()));
                 }
                 ArrayList<Pos> PosInimigos = new ArrayList();
-                for(int cont2 = 0; cont2 < 5; cont2++){
-                    PosAliados.add(new Pos((int)aliados[cont2].getRobotInfo().getX(), (int)aliados[cont2].getRobotInfo().getY()));
+                for(int cont2 = 1; cont2 < 5; cont2++){
+                    PosInimigos.add(new Pos((int)aliados[cont2].getRobotInfo().getX(), (int)aliados[cont2].getRobotInfo().getY()));
                 }               
                 HexBoard board = new HexBoard(PosAliados, PosInimigos, new Pos((int)aliados[0].getRobotInfo().getX(), (int)aliados[0].getRobotInfo().getY()));
                 //TODO Planeja o caminho usando o A*
