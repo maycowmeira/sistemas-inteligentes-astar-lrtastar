@@ -83,8 +83,8 @@ public class HexBoard implements Serializable {
     
     }
     
-    ArrayDeque<Character> Astar(int sx, int sy, int gx, int gy){
-        ArrayDeque<Character> plano = new ArrayDeque();
+    ArrayDeque<Pos> Astar(int sx, int sy, int gx, int gy){
+        ArrayDeque<Pos> plano = new ArrayDeque();
         ArrayList<Hex> closed = new ArrayList();
         Hex current = board.get(sx).get(sy);
         ArrayList<Hex> open = new ArrayList();
@@ -102,6 +102,10 @@ public class HexBoard implements Serializable {
             closed.add(current);
             if(current.getX() == gx && current.getY() == gy){
                 //TODO: adicionar as instruções finais a fila antes de retornar
+                while(current.getX() != sx && current.getY() != sy){
+                    plano.push(new Pos(current.getX() * 3600, current.getY() * 3600));
+                    current = current.getParent();
+                }
                 return plano;
             }
             for(Hex v: current.getVizinhos()){
@@ -122,7 +126,7 @@ public class HexBoard implements Serializable {
         return new ArrayDeque();
     }
     
-    Character LRTAstar(int sx, int sy, int gx, int gy){
+    Pos LRTAstar(int sx, int sy, int gx, int gy){
         Hex current = board.get(sx).get(sy);
         Hex last = current;
         for(Hex v: current.getVizinhos()){
@@ -135,10 +139,10 @@ public class HexBoard implements Serializable {
             }
         }
         if(menorf.getX() == gx && menorf.getY() == gy)
-            return 'g';
+            return new Pos(-1, -1);
         
         //TODO comparar current com last e definir qual comando enviar para o robo
-        return '\n';
+        return new Pos(menorf.getX() * 3600, menorf.getY() * 3600);
     }
     
 }

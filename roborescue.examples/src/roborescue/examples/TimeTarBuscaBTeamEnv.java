@@ -5,7 +5,7 @@
  */
 package roborescue.examples;
 
-import atuador.AtuadorAssincrono;
+import atuador.AtuadorSincrono;
 import jason.RoborescueEnv;
 import jason.asSyntax.Structure;
 import java.rmi.RemoteException;
@@ -20,7 +20,7 @@ public class TimeTarBuscaBTeamEnv extends RoborescueEnv {
     private RobotInfo[] inimigos;
     private char meuLadoCampo;
     private RobotInfo[] robos;
-    private AtuadorAssincrono atuador;
+    private AtuadorSincrono atuador;
     private Boolean primeiraVez = true;
 
     //Para inicializacoes necessarias
@@ -29,7 +29,7 @@ public class TimeTarBuscaBTeamEnv extends RoborescueEnv {
         try {
             aliados = getServerRef().getTeamInterfaces(nomeTime);
             meuLadoCampo = aliados[0].getRobotInfo().getX() > 200 ? 'e' : 'd';
-            atuador = new AtuadorAssincrono();
+            atuador = new AtuadorSincrono();
 
             /* Posiciona os robos arbitrariamente para servirem de barreira para
              ** para o time oponente

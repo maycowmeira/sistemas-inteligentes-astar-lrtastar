@@ -4,7 +4,7 @@
  */
 package roborescue.examples;
 
-import atuador.AtuadorAssincrono;
+import atuador.AtuadorSincrono;
 import br.edu.utfpr.hexgrid.*;
 import jason.RoborescueEnv;
 import jason.asSyntax.Structure;
@@ -21,7 +21,7 @@ public class TimeTarBuscaATeamEnv extends RoborescueEnv {
     private RobotInfo[] inimigos;
     private char meuLadoCampo;
     private RobotInfo[] robos;
-    private AtuadorAssincrono atuador;
+    private AtuadorSincrono atuador;
     private Boolean primeiraVez = true;
 
     //Para inicializacoes necessarias
@@ -30,7 +30,7 @@ public class TimeTarBuscaATeamEnv extends RoborescueEnv {
         try {
             aliados = getServerRef().getTeamInterfaces(nomeTime);
             meuLadoCampo = aliados[0].getRobotInfo().getX() > 200 ? 'e' : 'd';
-            atuador = new AtuadorAssincrono();
+            atuador = new AtuadorSincrono();
 
             /* O aliados[0] do time A eh o refem e inicia posicionado na 
              ** extremidade oposta do campo em relacao aos seus companheiros.
