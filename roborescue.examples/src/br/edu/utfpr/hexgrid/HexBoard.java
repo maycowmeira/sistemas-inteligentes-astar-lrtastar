@@ -26,7 +26,26 @@ public class HexBoard implements Serializable {
             board.get(i).add(new Hex(i, j, 0, 0));
         }
     }
+    board.get(0).get(0).setH(Integer.MAX_VALUE);
     //inicializar as arestas
+    for(int i = 0; i < 41; i++){
+        for(int j = 0; i < 25; i++){
+            if(i != 0){
+                board.get(i).get(j).getVizinhos().add(board.get(i-1).get(j));
+            }
+            if(i !=0 && j != 0){
+                board.get(i).get(j).getVizinhos().add(board.get(i-1).get(j-1));
+                board.get(i).get(j).getVizinhos().add(board.get(i).get(j-1));
+            }
+            if(i != 40){
+                board.get(i).get(j).getVizinhos().add(board.get(i+1).get(j));
+            }
+            if(i != 40 && j != 24){
+                board.get(i).get(j).getVizinhos().add(board.get(i+1).get(j+1));
+                board.get(i).get(j).getVizinhos().add(board.get(i).get(j+1));
+            }            
+        }
+    }
     
     }
     
