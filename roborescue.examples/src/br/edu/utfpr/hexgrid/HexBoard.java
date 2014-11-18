@@ -21,16 +21,18 @@ public class HexBoard implements Serializable {
     public HexBoard(ArrayList<Pos> aliados, ArrayList<Pos> inimigos, Pos objetivo){
         //instanciar os vertices
         board = new ArrayList();
-        for(int i = 0; i < 41; i++){
+        for(int i = 0; i < 41; i++)
             board.add(new ArrayList());
-            for(int j = 0; i < 25; i++){
-                board.get(i).add(new Hex(i, j));
-            }
-        }
+        
+        for(int i = 0; i < 41; i++)        
+            for(int j = 0; j < 25; j++)
+                    board.get(i).add(new Hex(i, j));
+        
         board.get(0).get(0).setH(Integer.MAX_VALUE);
 
         ArrayList<Pos> barreira = new ArrayList();
 
+        //TODO: TROCAR POS POR HEX NA BARREIRA
         for(Pos p : aliados){
             barreira.add(new Pos(p.x,p.y));
             barreira.add(new Pos(p.x-1,p.y-1));
@@ -115,6 +117,7 @@ public class HexBoard implements Serializable {
         open.add(current);        
         
         while(!open.isEmpty()){
+            System.out.println("Pinguins e focas");            
             Hex menorf = open.get(0);
             for(Hex h: open){
                 if(h.getF() < menorf.getF()){
@@ -130,7 +133,6 @@ public class HexBoard implements Serializable {
                     plano.push(new Pos(current.getX() * 3600, current.getY() * 3600));
                     current = current.getParent();
                 }
-                return plano;
             }
             for(Hex v: current.getVizinhos()){
                 if(!closed.contains(v)){
@@ -146,8 +148,7 @@ public class HexBoard implements Serializable {
                 }
             }
         }
-        //se falhou retorna um conjunto vazio de instrucoes
-        return new ArrayDeque();
+        return plano;
     }
     
     public Pos LRTAstar(int sx, int sy, int gx, int gy){

@@ -109,9 +109,9 @@ public class TimeTarBuscaATeamEnv extends RoborescueEnv {
         double yRefem = refem.getY();
         RMIRobotInterface[] teamRef = getTeamRef();
 
-        System.out.println("salvador " + (int) teamRef[1].getRobotInfo().getX() + ", "
+        /*System.out.println("salvador " + (int) teamRef[1].getRobotInfo().getX() + ", "
                 + (int) teamRef[1].getRobotInfo().getY());
-        System.out.println("   refem " + (int) xRefem + ", " + (int) yRefem);
+        System.out.println("   refem " + (int) xRefem + ", " + (int) yRefem);*/
 
         // aguarda o robo aliado 3 acabar seu movimento pois eh o que vai
         // mais longe
@@ -129,7 +129,7 @@ public class TimeTarBuscaATeamEnv extends RoborescueEnv {
                 }               
                 HexBoard board = new HexBoard(PosAliados, PosInimigos, new Pos((int)aliados[0].getRobotInfo().getX(), (int)aliados[0].getRobotInfo().getY()));
                 //TODO Planeja o caminho usando o A*
-                filaDeAcoes = board.Astar((int)aliados[1].getRobotInfo().getX(), (int)aliados[1].getRobotInfo().getY(), (int)aliados[0].getRobotInfo().getX(), (int)aliados[0].getRobotInfo().getY());
+                filaDeAcoes = board.Astar((int)aliados[1].getRobotInfo().getX()/60, (int)aliados[1].getRobotInfo().getY()/60, (int)aliados[0].getRobotInfo().getX()/60, (int)aliados[0].getRobotInfo().getY()/60);
                 //Executa o caminho achado pelo A*
                 while(!filaDeAcoes.isEmpty()){
                     Pos pop = filaDeAcoes.pop();
