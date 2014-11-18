@@ -13,6 +13,7 @@ import java.util.ArrayList;
 /**
  *
  * @author Bernardo
+ * Inspirado por: http://www.redblobgames.com/grids/hexagons/
  */
 public class HexBoard implements Serializable {
     ArrayList<ArrayList<Hex>> board;
