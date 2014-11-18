@@ -28,23 +28,56 @@ public class HexBoard implements Serializable {
         }
     }
     board.get(0).get(0).setH(Integer.MAX_VALUE);
+    
+    ArrayList<Pos> barreira = new ArrayList();
+    
+    for(Pos p : aliados){
+        barreira.add(new Pos(p.x,p.y));
+        barreira.add(new Pos(p.x-1,p.y-1));
+        barreira.add(new Pos(p.x,p.y-1));
+        barreira.add(new Pos(p.x+1,p.y));
+        barreira.add(new Pos(p.x,p.y+1));
+        barreira.add(new Pos(p.x-1,p.y+1));
+        barreira.add(new Pos(p.x-1,p.y));
+    }
+    for(Pos p : inimigos){
+        barreira.add(new Pos(p.x,p.y));
+        barreira.add(new Pos(p.x-1,p.y-1));
+        barreira.add(new Pos(p.x,p.y-1));
+        barreira.add(new Pos(p.x+1,p.y));
+        barreira.add(new Pos(p.x,p.y+1));
+        barreira.add(new Pos(p.x-1,p.y+1));
+        barreira.add(new Pos(p.x-1,p.y));
+    }
     //inicializar as arestas
     for(int i = 0; i < 41; i++){
         for(int j = 0; i < 25; i++){
             if(i != 0){
-                board.get(i).get(j).getVizinhos().add(board.get(i-1).get(j));
+                if(barreira.contains(new Pos(board.get(i-1).get(j).getX()*60,board.get(i-1).get(j).getY()*60))){
+                    board.get(i).get(j).getVizinhos().add(board.get(i-1).get(j));
+                }
             }
             if(i !=0 && j != 0){
-                board.get(i).get(j).getVizinhos().add(board.get(i-1).get(j-1));
-                board.get(i).get(j).getVizinhos().add(board.get(i).get(j-1));
+                if(barreira.contains(new Pos(board.get(i-1).get(j-1).getX()*60,board.get(i-1).get(j-1).getY()*60))){
+                    board.get(i).get(j).getVizinhos().add(board.get(i-1).get(j-1));
+                }
+                if(barreira.contains(new Pos(board.get(i).get(j-1).getX()*60,board.get(i).get(j-1).getY()*60))){
+                    board.get(i).get(j).getVizinhos().add(board.get(i).get(j-1));
+                }
             }
             if(i != 40){
-                board.get(i).get(j).getVizinhos().add(board.get(i+1).get(j));
+                if(barreira.contains(new Pos(board.get(i+1).get(j).getX()*60,board.get(i+1).get(j).getY()*60))){
+                    board.get(i).get(j).getVizinhos().add(board.get(i+1).get(j));
+                }
             }
             if(i != 40 && j != 24){
-                board.get(i).get(j).getVizinhos().add(board.get(i+1).get(j+1));
-                board.get(i).get(j).getVizinhos().add(board.get(i).get(j+1));
-            }            
+                if(barreira.contains(new Pos(board.get(i+1).get(j+1).getX()*60,board.get(i+1).get(j+1).getY()*60))){
+                    board.get(i).get(j).getVizinhos().add(board.get(i+1).get(j+1));
+                }
+                if(barreira.contains(new Pos(board.get(i).get(j+1).getX()*60,board.get(i).get(j+1).getY()*60))){
+                    board.get(i).get(j).getVizinhos().add(board.get(i).get(j+1));
+                }
+            }
         }
     }
     
