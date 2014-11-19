@@ -5,6 +5,7 @@
 package roborescue.examples;
 
 import atuador.AtuadorSincrono;
+import br.edu.utfpr.arquivador.Arquivador;
 import br.edu.utfpr.hexgrid.*;
 import jason.RoborescueEnv;
 import jason.asSyntax.Structure;
@@ -54,16 +55,19 @@ public class TimeTarBuscaCTeamEnv extends RoborescueEnv {
             /*DONE- posicionar os robos aleatoriamente para o LRTA*
              */
             if (meuLadoCampo == 'e') {
-                aliados[2].setTurnRight((int)(Math.random() * (90) ) - 45);
-                aliados[2].setAhead((int)(Math.random() * (700 - 100) ) + 100);
+                aliados[2].turnRight( - 45);
+                aliados[2].execute();                
+                aliados[2].ahead(150);
                 aliados[2].execute();
 
-                aliados[3].setTurnRight((int)(Math.random() * (90) ) - 45);
-                aliados[3].setAhead(((int)(Math.random() * (700 - 100) ) + 100));
+                aliados[3].turnRight(- 15);
+                aliados[3].execute();
+                aliados[3].ahead(200);
                 aliados[3].execute();
 
-                aliados[4].setTurnRight((int)(Math.random() * (90) ) - 45);
-                aliados[4].setAhead(((int)(Math.random() * (700 - 100) ) + 100));
+                aliados[4].turnRight(25);
+                aliados[4].execute();                
+                aliados[4].ahead(175);
                 aliados[4].execute();
                 try{
                     sleep(10000);
@@ -74,17 +78,22 @@ public class TimeTarBuscaCTeamEnv extends RoborescueEnv {
                 
                 
             } else {
-                aliados[4].setTurnRight((int)(Math.random() * (90) ) - 45);
-                aliados[4].setAhead(((int)(Math.random() * (700 - 100) ) + 100));
+                
+                aliados[4].turnRight(25);
+                aliados[4].execute();                
+                aliados[4].ahead(175);
                 aliados[4].execute();
-
-                aliados[3].setTurnRight((int)(Math.random() * (90) ) - 45);
-                aliados[3].setAhead(((int)(Math.random() * (700 - 100) ) + 100));
+                
+                aliados[3].turnRight(- 15);
                 aliados[3].execute();
-
-                aliados[2].setTurnRight((int)(Math.random() * (90) ) - 45);
-                aliados[2].setAhead(((int)(Math.random() * (700 - 100) ) + 100));
+                aliados[3].ahead(200);
+                aliados[3].execute();
+                
+                aliados[2].turnRight( - 45);
+                aliados[2].execute();                
+                aliados[2].ahead(150);
                 aliados[2].execute();
+                
             }
 
             /* Obtem informacoes dos robos do time inimigo - as posicoes dos 
@@ -148,6 +157,7 @@ public class TimeTarBuscaCTeamEnv extends RoborescueEnv {
                     Pos pop = board.LRTAstar((int)aliados[1].getRobotInfo().getX()/60, (int)aliados[1].getRobotInfo().getY()/60, (int)aliados[0].getRobotInfo().getX()/60, (int)aliados[0].getRobotInfo().getY()/60);
                     atuador.irPara(aliados[1], pop.getX(), pop.getY());
                 }
+                
             }
         }
 
