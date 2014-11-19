@@ -48,7 +48,7 @@ public class HexBoard implements Serializable {
             barreira.add(new Pos((p.x+1) * 60,(p.y) * 60));
             barreira.add(new Pos(p.x * 60,(p.y+1)* 60));
             barreira.add(new Pos((p.x-1)*60,(p.y+1)*60));
-            barreira.add(new Pos((p.x-1) * 60,p.y));
+            barreira.add(new Pos((p.x-1) * 60,p.y * 60));
         }
         for(Pos p : inimigos){
             barreira.add(new Pos(p.x * 60 ,p.y  * 60 ));
@@ -57,7 +57,7 @@ public class HexBoard implements Serializable {
             barreira.add(new Pos((p.x+1) * 60,(p.y) * 60));
             barreira.add(new Pos(p.x * 60,(p.y+1)* 60));
             barreira.add(new Pos((p.x-1)*60,(p.y+1)*60));
-            barreira.add(new Pos((p.x-1) * 60,p.y));
+            barreira.add(new Pos((p.x-1) * 60,p.y * 60));
         }
         //inicializar as arestas
         
@@ -192,12 +192,17 @@ public class HexBoard implements Serializable {
             }
             current = menorf;
             open.remove(current);
+            if(open.isEmpty()){
+                System.out.println("ESVAZIOU O OPEN!!!!!!");
+            }
             closed.add(current);
             if(current.getX() == gx && current.getY() == gy){
+                System.out.println("A* CHEGOU EM GOAL!!!!");
                 while(current.getX() != sx && current.getY() != sy){
                     plano.push(new Pos(current.getX() * 3600, current.getY() * 3600));
                     current = current.getParent();
                 }
+                return plano;
             }
             for(Hex v: current.getVizinhos()){
                 if(!closed.contains(v)){

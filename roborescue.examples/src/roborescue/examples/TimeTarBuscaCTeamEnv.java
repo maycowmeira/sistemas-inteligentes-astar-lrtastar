@@ -8,9 +8,12 @@ import atuador.AtuadorSincrono;
 import br.edu.utfpr.hexgrid.*;
 import jason.RoborescueEnv;
 import jason.asSyntax.Structure;
+import static java.lang.Thread.sleep;
 import java.rmi.RemoteException;
 import java.util.ArrayDeque;
 import java.util.ArrayList;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import robocode.rescue.RobotInfo;
 import robocode.rescue.interfaces.RMIRobotInterface;
 
@@ -62,6 +65,14 @@ public class TimeTarBuscaCTeamEnv extends RoborescueEnv {
                 aliados[4].setTurnRight((int)(Math.random() * (90) ) - 45);
                 aliados[4].setAhead(((int)(Math.random() * (700 - 100) ) + 100));
                 aliados[4].execute();
+                try{
+                    sleep(10000);
+                }
+                catch (InterruptedException ex) {
+                    Logger.getLogger(TimeTarBuscaATeamEnv.class.getName()).log(Level.SEVERE, null, ex);
+                }
+                
+                
             } else {
                 aliados[4].setTurnRight((int)(Math.random() * (90) ) - 45);
                 aliados[4].setAhead(((int)(Math.random() * (700 - 100) ) + 100));
@@ -125,7 +136,7 @@ public class TimeTarBuscaCTeamEnv extends RoborescueEnv {
                 }
                 ArrayList<Pos> PosInimigos = new ArrayList();
                 for(int cont2 = 0; cont2 < 5; cont2++){
-                    PosInimigos.add(new Pos((int)aliados[cont2].getRobotInfo().getX(), (int)aliados[cont2].getRobotInfo().getY()));
+                    PosInimigos.add(new Pos((int)inimigos[cont2].getX(), (int)inimigos[cont2].getY()));
                 }               
                 HexBoard board = new HexBoard(PosAliados, PosInimigos, new Pos((int)aliados[0].getRobotInfo().getX(), (int)aliados[0].getRobotInfo().getY()));
                 

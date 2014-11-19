@@ -8,9 +8,12 @@ import atuador.AtuadorSincrono;
 import br.edu.utfpr.hexgrid.*;
 import jason.RoborescueEnv;
 import jason.asSyntax.Structure;
+import static java.lang.Thread.sleep;
 import java.rmi.RemoteException;
 import java.util.ArrayDeque;
 import java.util.ArrayList;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import robocode.rescue.RobotInfo;
 import robocode.rescue.interfaces.RMIRobotInterface;
 
@@ -51,17 +54,27 @@ public class TimeTarBuscaATeamEnv extends RoborescueEnv {
             /*DONE- posicionar os robos aleatoriamente para o A*
              */
             if (meuLadoCampo == 'e') {
-                aliados[2].setTurnRight((int)(Math.random() * (90) ) - 45);
-                aliados[2].setAhead((int)(Math.random() * (700 - 100) ) + 100);
+                aliados[2].turnRight((int)(Math.random() * (90) ) - 45);
+                aliados[2].execute();                
+                aliados[2].ahead((int)(Math.random() * (700 - 100) ) + 100);
                 aliados[2].execute();
 
-                aliados[3].setTurnRight((int)(Math.random() * (90) ) - 45);
-                aliados[3].setAhead(((int)(Math.random() * (700 - 100) ) + 100));
+                aliados[3].turnRight((int)(Math.random() * (90) ) - 45);
+                aliados[3].execute();
+                aliados[3].ahead(((int)(Math.random() * (700 - 100) ) + 100));
                 aliados[3].execute();
 
-                aliados[4].setTurnRight((int)(Math.random() * (90) ) - 45);
-                aliados[4].setAhead(((int)(Math.random() * (700 - 100) ) + 100));
+                aliados[4].turnRight((int)(Math.random() * (90) ) - 45);
+                aliados[4].execute();                
+                aliados[4].ahead(((int)(Math.random() * (700 - 100) ) + 100));
                 aliados[4].execute();
+                try{
+                sleep(10000);
+                }
+                catch (InterruptedException ex) {
+                    Logger.getLogger(TimeTarBuscaATeamEnv.class.getName()).log(Level.SEVERE, null, ex);
+                }
+                
             } else {
                 aliados[4].setTurnRight((int)(Math.random() * (90) ) - 45);
                 aliados[4].setAhead(((int)(Math.random() * (700 - 100) ) + 100));
@@ -109,9 +122,9 @@ public class TimeTarBuscaATeamEnv extends RoborescueEnv {
         double yRefem = refem.getY();
         RMIRobotInterface[] teamRef = getTeamRef();
 
-        System.out.println("salvador " + (int) teamRef[1].getRobotInfo().getX() + ", "
+        /*System.out.println("salvador " + (int) teamRef[1].getRobotInfo().getX() + ", "
                 + (int) teamRef[1].getRobotInfo().getY());
-        System.out.println("   refem " + (int) xRefem + ", " + (int) yRefem);
+        System.out.println("   refem " + (int) xRefem + ", " + (int) yRefem);*/
 
         // aguarda o robo aliado 3 acabar seu movimento pois eh o que vai
         // mais longe
@@ -125,7 +138,7 @@ public class TimeTarBuscaATeamEnv extends RoborescueEnv {
                 }
                 ArrayList<Pos> PosInimigos = new ArrayList();
                 for(int cont2 = 0; cont2 < 5; cont2++){
-                    PosInimigos.add(new Pos((int)aliados[cont2].getRobotInfo().getX(), (int)aliados[cont2].getRobotInfo().getY()));
+                    PosInimigos.add(new Pos((int)inimigos[cont2].getX(), (int)inimigos[cont2].getY()));
                 }               
                 HexBoard board = new HexBoard(PosAliados, PosInimigos, new Pos((int)aliados[0].getRobotInfo().getX(), (int)aliados[0].getRobotInfo().getY()));
                 //TODO Planeja o caminho usando o A*
