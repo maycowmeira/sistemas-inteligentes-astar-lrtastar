@@ -10,7 +10,7 @@ import java.util.ArrayList;
 
 /**
  *
- * @author Bernardo
+ * @author Fernando
  */
 public class Hex {
     private ArrayList<Hex> vizinhos;
