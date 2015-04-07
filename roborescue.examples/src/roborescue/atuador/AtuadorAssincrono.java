@@ -2,7 +2,7 @@ package atuador;
 
 import java.rmi.RemoteException;
 import robocode.rescue.interfaces.RMIRobotInterface;
-
+//alo
 /**
  * Responsável por mover o robô de um ponto a outro em linha reta e rotacioná-lo.
  * Os métodos dessa classe são não bloqueantes, retornando imediatamente após o 
